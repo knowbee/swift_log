@@ -14,7 +14,8 @@ dependencies:
   flutter:
     sdk: flutter
   logger: ^1.4.0
-  path_provider: null
+  meta: ^1.8.0
+  path_provider: ^2.0.15
 
 dev_dependencies:
   flutter_lints: ^2.0.0
