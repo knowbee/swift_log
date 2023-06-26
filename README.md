@@ -1,39 +1,67 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# swift_log
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+A comprehensive logging solution designed specifically for flutter apps.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+## Description
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+The `swift_log` package is a logging solution developed to facilitate comprehensive logging functionalities in flutter applications. It provides the ability to capture and upload logs to a remote server for analysis and debugging purposes.
+
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Capturing exceptions with customizable tags, subtags, and log messages
+- Capturing events with event names, log messages, and log levels
+- Saving events to device storage (They are cleared out as soon as they get pushed to your logs API)
 
-## Getting started
+## Getting Started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+To get started with the `swift_log` package, follow these steps:
 
-## Usage
+1. Add the `swift_log` dependency to your project's `pubspec.yaml` file:
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+   ```yaml
+   dependencies:
+     swift_log:
+   ```
+
+2. Import the package and initialize the logger in your code:
 
 ```dart
-const like = 'sample';
+import 'package:swift_log/swift_log.dart';
+
+void main() async {
+
+  await SwiftLog.init(
+    (options) {
+      options.apiPrefix = 'https://your-custom-log-server.com';
+      options.token = 'yourApiToken';
+    },
+    appRunner: () async {
+      return runApp(
+        const App(),
+      );
+    },
+  );
+  // capture and upload logs, with associated events
+
+  SwiftLog.captureException(
+        logMessage: "Exception occurred",
+        level: LogLevel.error,
+        exception: e as Exception,
+        stackTrace: stackTrace,
+    );
+
+  /// track events
+  SwiftLog.captureEvent(
+    eventName: "Fetching clients",
+    logMessage: "Fetching clients",
+    level: LogLevel.info,
+  );
+}
 ```
 
-## Additional information
+For more details on usage and examples, refer to the example directory.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+### Contributing
+
+Contributions to the `swift_log` package are welcome! If you encounter any issues or have suggestions for improvements, please open an issue on this repository.
